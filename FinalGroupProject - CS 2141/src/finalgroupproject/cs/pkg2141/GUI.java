@@ -459,6 +459,7 @@ public class GUI extends javax.swing.JFrame {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         String query = "UPDATE `tableName` SET `columnName`='" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + formatTextField.getText() + "', '" + dateTextField.getText() + "', '" + releasedescTextField.getText() + "', '" + reviewTextField.getText() + "', '" + reviewcommTextField.getText() + "' WHERE `columnName`= +++id for selected row+++";
         executeSQLSearch(query, "Updated");
+        
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
