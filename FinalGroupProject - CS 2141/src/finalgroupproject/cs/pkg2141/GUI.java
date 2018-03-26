@@ -101,6 +101,9 @@ public class GUI extends javax.swing.JFrame {
         try {
             stmt = con.createStatement();
             if (stmt.executeUpdate(query) == 1){
+                DefaultTableModel model = (DefaultTableModel)resultsTable.getModel();
+                model.setRowCount(0);
+                populateTable();
                 JOptionPane.showMessageDialog(null, "Success");
             }
             else {
@@ -463,7 +466,8 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        String query = "DELETE FROM `tableNmae` WHERE column = " + TextField.getText();
+        executeSQLSearch(query, "Deleted");
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
