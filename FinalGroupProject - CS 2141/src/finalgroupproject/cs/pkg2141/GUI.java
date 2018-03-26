@@ -16,7 +16,7 @@ import javax.swing.table.TableModel;
 public class GUI extends javax.swing.JFrame {
     Connection con;
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/group_project?autoReconnect=true&useSSL=false";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/musicdb?autoReconnect=true&useSSL=false";
     static final String USER = "root";
     static final String PASSWORD = "root";
     
@@ -41,7 +41,7 @@ public class GUI extends javax.swing.JFrame {
     public ArrayList<Music> getMusicList(){
         ArrayList<Music> musicList = new ArrayList<Music>();
         Connection connect = getConnection();
-        String query = "SELECT Artist_Name, Track_Name, Album_Name, Genre_Name, Country_Name FROM" + "Artist join Album using (Artist_id)" + "join Track using (Album_id)" + "join Country using (Country_ID)" + "join Genre using (Genre_ID)";
+        String query = "SELECT Artist_Name, Track_Name, Album_Name, Genre_Name, Country_Name FROM " + "Artist join Album using (Artist_id) " + "join Track using (Album_id) " + "join Country using (Country_ID) " + "join Genre using (Genre_ID)";
         
         Statement stmt;
         ResultSet rs;
@@ -51,7 +51,7 @@ public class GUI extends javax.swing.JFrame {
             rs = stmt.executeQuery(query);
             Music music;
             while(rs.next()){
-                music = new Music(rs.getString("artist"), rs.getString("song"), rs.getString("album"), rs.getString("genre"), rs.getString("country"));
+                music = new Music(rs.getString("Artist_Name"), rs.getString("Track_Name"), rs.getString("Album_Name"), rs.getString("Genre_Name"), rs.getString("Country_Name"));
                 musicList.add(music);
             }
         }
@@ -125,13 +125,13 @@ public class GUI extends javax.swing.JFrame {
 
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Artist", "Song", "Album", "Genre", "Label", "Country"
+                "Artist", "Song", "Album", "Genre", "Country"
             }
         ));
         resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -275,9 +275,21 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_artistTextFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        String query = "INSERT INTO `TableName`(`columnName1`, `columnName2`) VALUES ('" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + dateTextField.getText() + "', '" + reviewTextField.getText() + "')";
+        String artist = artistTextField.getText() + " ";
+        String song = songTextField.getText() + " ";
+        String album = albumTextField.getText() + " ";
+        String query = "", query1 = "", query2 = "", query3 = "", query4;
         
-        executeSQLSearch(query, "Added");
+        if (!artist.equals(null) && !song.equals(null) && !album.equals(null)){
+            query1 = "INSERT INTO Artist (Artist_Name) VALUES ('" + artist + "'); ";
+            query2 =  "INSERT INTO Track (Track_Name) VALUES ('" + song + "'); ";
+            query3 = "INSERT INTO Album (Album_Name) VALUES ('" + album + "') ";
+            
+            query4 = query1 + query2 + query3;
+            
+            executeSQLSearch(query3, "Added");
+            
+        }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void songTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_songTextFieldActionPerformed
@@ -299,8 +311,8 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
         if (row >= 0){
             model.setValueAt(artistTextField.getText(), row, 0);
-            model.setValueAt(albumTextField.getText(), row, 1);
-            model.setValueAt(songTextField.getText(), row, 2);
+            model.setValueAt(songTextField.getText(), row, 1);
+            model.setValueAt(albumTextField.getText(), row, 2);
         }
         else {
             JOptionPane.showMessageDialog(null, "Error");
