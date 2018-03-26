@@ -12,15 +12,12 @@ public class Music {
     private String releaseDate;
     private int reviewScore;
     
-    public Music(String genre, String country, String label, String artist, String album, String song, String releaseDate, int reviewScore){
+    public Music (String artist, String song, String album, String genre, String country){
         this.genre = genre;
         this.country = country;
-        this.label = label;
         this.artist = artist;
         this.album = album;
         this.song = song;
-        this.releaseDate = releaseDate;
-        this.reviewScore = reviewScore;
     }
     
     public String getGenre(){
@@ -28,9 +25,6 @@ public class Music {
     }
     public String getCountry(){
         return country;
-    }
-    public String getLabel(){
-        return label;
     }
     public String getArtist(){
         return artist;
@@ -40,12 +34,6 @@ public class Music {
     }
     public String getSong(){
         return song;
-    }
-    public String getReleaseDate(){
-        return releaseDate;
-    }
-    public int getReviewscore(){
-        return reviewScore;
     }
     
 }

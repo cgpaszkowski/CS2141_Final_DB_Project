@@ -23,12 +23,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -50,9 +53,6 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="songLabel" max="32767" attributes="0"/>
                               <Component id="albumLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="genreLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="labelLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="dateLabel" alignment="0" max="32767" attributes="0"/>
                               <Component id="artistLabel" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
@@ -60,34 +60,21 @@
                               <Component id="artistTextField" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                               <Component id="songTextField" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                               <Component id="albumTextField" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="genreTextField" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="labelTextField" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="dateTextField" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="addButton" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
                               <Component id="searchButton" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
                               <Component id="deleteButton" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
                               <Component id="updateButton" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="countryLabel" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                          <Component id="countryTextField" min="-2" pref="200" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="reviewLabel" pref="99" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                          <Component id="reviewTextField" min="-2" pref="200" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="1431" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="1235" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -111,32 +98,7 @@
                               <Component id="albumTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="albumLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="genreTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="genreLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="labelTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="countryTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="countryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="dateTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="dateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="reviewTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="reviewLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="addButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="updateButton" min="-2" max="-2" attributes="0"/>
@@ -144,10 +106,11 @@
                           <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="searchButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane2" alignment="0" min="-2" pref="729" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" alignment="0" pref="463" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -163,47 +126,17 @@
             <Component class="javax.swing.JTable" name="resultsTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="11" rowCount="4">
+                  <Table columnCount="6" rowCount="4">
                     <Column editable="true" title="Artist" type="java.lang.Object"/>
                     <Column editable="true" title="Song" type="java.lang.Object"/>
                     <Column editable="true" title="Album" type="java.lang.Object"/>
                     <Column editable="true" title="Genre" type="java.lang.Object"/>
                     <Column editable="true" title="Label" type="java.lang.Object"/>
                     <Column editable="true" title="Country" type="java.lang.Object"/>
-                    <Column editable="true" title="Format" type="java.lang.Object"/>
-                    <Column editable="true" title="ReleaseDate" type="java.lang.Object"/>
-                    <Column editable="true" title="ReleaseDesc" type="java.lang.Object"/>
-                    <Column editable="true" title="ReviewScore" type="java.lang.Object"/>
-                    <Column editable="true" title="ReviewComment" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
@@ -276,28 +209,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="labelTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="labelTextFieldActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="labelLabel">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Label"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="reviewTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reviewTextFieldActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="reviewLabel">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Review Score"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="updateButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Update"/>
@@ -331,39 +242,6 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="Album"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="genreTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genreTextFieldActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="genreLabel">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Genre"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="dateLabel">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Release Date"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="dateTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dateTextFieldActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="countryTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="countryTextFieldActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="countryLabel">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Country"/>
           </Properties>
         </Component>
       </SubComponents>

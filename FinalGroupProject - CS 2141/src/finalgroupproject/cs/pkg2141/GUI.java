@@ -25,21 +25,7 @@ public class GUI extends javax.swing.JFrame {
         populateTable();
         //createConnection();
     }
-    /*
-    void createConnection(){
-        try {
-            Class.forName(JDBC_DRIVER);  
-            con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-        } 
-        catch (ClassNotFoundException ex) {
-            Logger.getLogger(FinalGroupProjectCS2141.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (SQLException ex) {
-            Logger.getLogger(FinalGroupProjectCS2141.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    */
-    
+   
     public Connection getConnection(){
         Connection con;
         try {
@@ -52,11 +38,11 @@ public class GUI extends javax.swing.JFrame {
         }
     }
     
-    
     public ArrayList<Music> getMusicList(){
         ArrayList<Music> musicList = new ArrayList<Music>();
         Connection connect = getConnection();
-        String query = "SELECT * FROM `TableNames`";
+        String query = "SELECT Artist_Name, Track_Name, Album_Name, Genre_Name, Country_Name FROM" + "Artist join Album using (Artist_id)" + "join Track using (Album_id)" + "join Country using (Country_ID)" + "join Genre using (Genre_ID)";
+        
         Statement stmt;
         ResultSet rs;
         
@@ -65,7 +51,7 @@ public class GUI extends javax.swing.JFrame {
             rs = stmt.executeQuery(query);
             Music music;
             while(rs.next()){
-                music = new Music(rs.getString("genre"), rs.getString("country"), rs.getString("label"), rs.getString("artist"), rs.getString("album"), rs.getString("song"), rs.getString("releaseDate"), rs.getInt("reviewScore"));
+                music = new Music(rs.getString("artist"), rs.getString("song"), rs.getString("album"), rs.getString("genre"), rs.getString("country"));
                 musicList.add(music);
             }
         }
@@ -78,16 +64,13 @@ public class GUI extends javax.swing.JFrame {
     public void populateTable(){
         ArrayList<Music> list = getMusicList();
         DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
-        Object[] row = new Object[11];
+        Object[] row = new Object[5];
         for (int i=0; i< list.size(); i++){
             row[0] = list.get(i).getArtist();
             row[1] = list.get(i).getSong();
             row[2] = list.get(i).getAlbum();
             row[3] = list.get(i).getGenre();
-            row[4] = list.get(i).getLabel();
-            row[5] = list.get(i).getCountry();
-            row[6] = list.get(i).getReleaseDate();
-            row[7] = list.get(i).getReviewscore();
+            row[4] = list.get(i).getCountry();
             
             model.addRow(row);
         }
@@ -113,7 +96,6 @@ public class GUI extends javax.swing.JFrame {
         }
     }
     
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -131,21 +113,11 @@ public class GUI extends javax.swing.JFrame {
         artistLabel = new javax.swing.JLabel();
         songLabel = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        labelTextField = new javax.swing.JTextField();
-        labelLabel = new javax.swing.JLabel();
-        reviewTextField = new javax.swing.JTextField();
-        reviewLabel = new javax.swing.JLabel();
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
         albumTextField = new javax.swing.JTextField();
         albumLabel = new javax.swing.JLabel();
-        genreTextField = new javax.swing.JTextField();
-        genreLabel = new javax.swing.JLabel();
-        dateLabel = new javax.swing.JLabel();
-        dateTextField = new javax.swing.JTextField();
-        countryTextField = new javax.swing.JTextField();
-        countryLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -153,13 +125,13 @@ public class GUI extends javax.swing.JFrame {
 
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Artist", "Song", "Album", "Genre", "Label", "Country", "Format", "ReleaseDate", "ReleaseDesc", "ReviewScore", "ReviewComment"
+                "Artist", "Song", "Album", "Genre", "Label", "Country"
             }
         ));
         resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -194,24 +166,6 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        labelTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                labelTextFieldActionPerformed(evt);
-            }
-        });
-
-        labelLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        labelLabel.setText("Label");
-
-        reviewTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reviewTextFieldActionPerformed(evt);
-            }
-        });
-
-        reviewLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        reviewLabel.setText("Review Score");
-
         updateButton.setText("Update");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,33 +196,6 @@ public class GUI extends javax.swing.JFrame {
         albumLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         albumLabel.setText("Album");
 
-        genreTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genreTextFieldActionPerformed(evt);
-            }
-        });
-
-        genreLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        genreLabel.setText("Genre");
-
-        dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        dateLabel.setText("Release Date");
-
-        dateTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateTextFieldActionPerformed(evt);
-            }
-        });
-
-        countryTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                countryTextFieldActionPerformed(evt);
-            }
-        });
-
-        countryLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        countryLabel.setText("Country");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -280,35 +207,21 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(songLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(albumLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(genreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(artistLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(13, 13, 13)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(artistTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(songTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(albumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(genreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(albumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(countryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(13, 13, 13)
-                        .addComponent(countryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                        .addGap(13, 13, 13)
-                        .addComponent(reviewTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updateButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1235, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -328,47 +241,30 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(albumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(albumLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(genreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(genreLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(countryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(countryLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(reviewTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reviewLabel))
-                        .addGap(80, 80, 80)
+                        .addGap(48, 48, 48)
                         .addComponent(addButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(updateButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchButton))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 729, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(searchButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -391,41 +287,147 @@ public class GUI extends javax.swing.JFrame {
     private void albumTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_albumTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_albumTextFieldActionPerformed
-
-    private void genreTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_genreTextFieldActionPerformed
-
-    private void labelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_labelTextFieldActionPerformed
-
-    private void reviewTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_reviewTextFieldActionPerformed
     
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        String query = "UPDATE `tableName` SET `columnName`='" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + dateTextField.getText() + "', '" + reviewTextField.getText() + "' WHERE `columnName`= +++id for selected row+++";
-        executeSQLSearch(query, "Updated");
         
+        /*
+            UPDATE Artist SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
+            UPDATE Track SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
+            UPDATE Album SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
+        */
+        int row = resultsTable.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
+        if (row >= 0){
+            model.setValueAt(artistTextField.getText(), row, 0);
+            model.setValueAt(albumTextField.getText(), row, 1);
+            model.setValueAt(songTextField.getText(), row, 2);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+        
+        /*
+        boolean artist = artistTextField.getText().equals(null);
+        boolean album = albumTextField.getText().equals(null);
+        boolean song = songTextField.getText().equals(null);
+        String query1, query2="", query3="";
+        
+        if (!artist || !album || !song){
+            if (!artist){
+                if (!album){
+                    if(!song){
+                        query2 = "SET Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                        query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                    }
+                    else 
+                        query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "';";
+                }
+                if (!song){
+                    query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                }
+                else 
+                    query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "';";                    
+            }
+            else if (!album){
+                if (!song){
+                    query3 = "WHERE Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                }
+                else 
+                    query3 = "WHERE Album_Name = '" + albumTextField.getText() + "';";
+            }
+            else {
+                query3 = "WHERE Song_Name = '" + songTextField.getText() + "';";
+            }
+            String query = "UPDATE `tableName` SET `columnName`='" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + dateTextField.getText() + "', '" + reviewTextField.getText() + "' WHERE `columnName`= +++id for selected row+++";
+            executeSQLSearch(query, "Updated");
+        }
+        else {
+            //---------ROW WAS NOT SELECTED---------POPUP MESSAGE----------
+        }
+        
+        
+        */  
+          
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        String query = "DELETE FROM `tableNmae` WHERE column = " + TextField.getText();
-        executeSQLSearch(query, "Deleted");
+
+        boolean artist = artistTextField.getText().equals(null);
+        boolean album = albumTextField.getText().equals(null);
+        boolean song = songTextField.getText().equals(null);
+        String query1, query2="";
+        
+        if (!artist || !album || !song){
+            if (!artist){
+                if (!album){
+                    if(!song){
+                       query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                    }
+                    else 
+                        query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "';";
+                }
+                if (!song){
+                    query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                }
+                else 
+                    query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "';";                    
+            }
+            else if (!album){
+                if (!song){
+                    query2 = "WHERE Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
+                }
+                else 
+                    query2 = "WHERE Album_Name = '" + albumTextField.getText() + "';";
+            }
+            else {
+                query2 = "WHERE Song_Name = '" + songTextField.getText() + "';";
+            }
+            
+            query1 = "DELETE FROM Artist " + query2 + " DELETE FROM Track " + query2 + " DELETE FROM Album " + query2;
+            executeSQLSearch(query1, "Deleted");
+        }
+        else {
+            //---------ROW WAS NOT SELECTED---------POPUP MESSAGE----------
+        }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
+        boolean artist = artistTextField.getText().equals(null);
+        boolean album = albumTextField.getText().equals(null);
+        boolean song = songTextField.getText().equals(null);
+        String query1, query2="";
+        
+        if (!artist || !album || !song){
+            if (!artist){
+                if (!album){
+                    if(!song){
+                       query2 = "WHERE Artist_Name = " + artistTextField.getText() + " AND Album_Name = " + albumTextField.getText() + " AND Song_Name = " + songTextField.getText() + ";";
+                    }
+                    else 
+                        query2 = "WHERE Artist_Name = " + artistTextField.getText() + " AND Album_Name = " + albumTextField.getText() + ";";
+                }
+                if (!song){
+                    query2 = "WHERE Artist_Name = " + artistTextField.getText() + " AND Song_Name = " + songTextField.getText() + ";";
+                }
+                else 
+                    query2 = "WHERE Artist_Name = " + artistTextField.getText() + ";";                    
+            }
+            else if (!album){
+                if (!song){
+                    query2 = "WHERE Album_Name = " + albumTextField.getText() + " AND Song_Name = " + songTextField.getText() + ";";
+                }
+                else 
+                    query2 = "WHERE Album_Name = " + albumTextField.getText() + ";";
+            }
+            else {
+                query2 = "WHERE Song_Name = " + songTextField.getText() + ";";
+            }
+        }
+        
+        
+        query1 = "SELECT Artist_Name, Track_Name, Album_Name, Country_Name, Genre_Name from Artist join Album using (Artist_ID) join Track using (Album_id) join Country using (Country_ID) join Genre using (Genre_ID)" + query2 + ";";
+        executeSQLSearch(query1, "Search");
     }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void dateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateTextFieldActionPerformed
-
-    private void countryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_countryTextFieldActionPerformed
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
         int i = resultsTable.getSelectedRow();
@@ -434,11 +436,6 @@ public class GUI extends javax.swing.JFrame {
         artistTextField.setText(model.getValueAt(i, 0).toString());
         songTextField.setText(model.getValueAt(i, 1).toString());
         albumTextField.setText(model.getValueAt(i, 2).toString());
-        genreTextField.setText(model.getValueAt(i, 3).toString());
-        labelTextField.setText(model.getValueAt(i, 4).toString());
-        countryTextField.setText(model.getValueAt(i, 5).toString());
-        dateTextField.setText(model.getValueAt(i, 6).toString());
-        reviewTextField.setText(model.getValueAt(i, 7).toString());
                 
     }//GEN-LAST:event_resultsTableMouseClicked
 
@@ -481,20 +478,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField albumTextField;
     private javax.swing.JLabel artistLabel;
     private javax.swing.JTextField artistTextField;
-    private javax.swing.JLabel countryLabel;
-    private javax.swing.JTextField countryTextField;
-    private javax.swing.JLabel dateLabel;
-    private javax.swing.JTextField dateTextField;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JLabel genreLabel;
-    private javax.swing.JTextField genreTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel labelLabel;
-    private javax.swing.JTextField labelTextField;
     private javax.swing.JTable resultsTable;
-    private javax.swing.JLabel reviewLabel;
-    private javax.swing.JTextField reviewTextField;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel songLabel;
     private javax.swing.JTextField songTextField;
