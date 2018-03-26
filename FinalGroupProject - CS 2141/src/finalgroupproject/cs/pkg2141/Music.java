@@ -9,24 +9,18 @@ public class Music {
     private String artist;
     private String album;
     private String song;
-    private String format;
     private String releaseDate;
-    private String releaseDesc;
     private int reviewScore;
-    private String reviewComm;
     
-    public Music(String genre, String country, String label, String artist, String album, String song, String format, String releaseDate, String releaseDesc, int reviewScore, String reviewComm){
+    public Music(String genre, String country, String label, String artist, String album, String song, String releaseDate, int reviewScore){
         this.genre = genre;
         this.country = country;
         this.label = label;
         this.artist = artist;
         this.album = album;
         this.song = song;
-        this.format = format;
         this.releaseDate = releaseDate;
-        this.releaseDesc = releaseDesc;
         this.reviewScore = reviewScore;
-        this.reviewComm = reviewComm;
     }
     
     public String getGenre(){
@@ -47,20 +41,11 @@ public class Music {
     public String getSong(){
         return song;
     }
-    public String getFormat(){
-        return format;
-    }
     public String getReleaseDate(){
         return releaseDate;
     }
-    public String getReleaseDesc(){
-        return releaseDesc;
-    }
     public int getReviewscore(){
         return reviewScore;
-    }
-    public String getReviewcomm(){
-        return reviewComm;
     }
     
 }

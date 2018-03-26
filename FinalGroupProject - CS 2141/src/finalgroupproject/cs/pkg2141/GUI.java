@@ -48,6 +48,7 @@ public class GUI extends javax.swing.JFrame {
         }
         catch (Exception e){
             e.printStackTrace();
+            return null;
         }
     }
     
@@ -64,7 +65,7 @@ public class GUI extends javax.swing.JFrame {
             rs = stmt.executeQuery(query);
             Music music;
             while(rs.next()){
-                music = new Music(rs.getString("genre"), rs.getString("country"), rs.getString("label"), rs.getString("artist"), rs.getString("album"), rs.getString("song"), rs.getString("format"), rs.getString("releaseDate"), rs.getString("releaseDesc"), rs.getInt("reviewScore"), rs.getString("reviewComm"));
+                music = new Music(rs.getString("genre"), rs.getString("country"), rs.getString("label"), rs.getString("artist"), rs.getString("album"), rs.getString("song"), rs.getString("releaseDate"), rs.getInt("reviewScore"));
                 musicList.add(music);
             }
         }
@@ -85,11 +86,8 @@ public class GUI extends javax.swing.JFrame {
             row[3] = list.get(i).getGenre();
             row[4] = list.get(i).getLabel();
             row[5] = list.get(i).getCountry();
-            row[6] = list.get(i).getFormat();
-            row[7] = list.get(i).getReleaseDate();
-            row[8] = list.get(i).getReleaseDesc();
-            row[9] = list.get(i).getReviewscore();
-            row[10] = list.get(i).getReviewcomm();
+            row[6] = list.get(i).getReleaseDate();
+            row[7] = list.get(i).getReviewscore();
             
             model.addRow(row);
         }
@@ -144,16 +142,10 @@ public class GUI extends javax.swing.JFrame {
         albumLabel = new javax.swing.JLabel();
         genreTextField = new javax.swing.JTextField();
         genreLabel = new javax.swing.JLabel();
-        reviewcommTextField = new javax.swing.JTextField();
-        reviewcommLabel = new javax.swing.JLabel();
         dateLabel = new javax.swing.JLabel();
         dateTextField = new javax.swing.JTextField();
-        releasedescLabel = new javax.swing.JLabel();
-        releasedescTextField = new javax.swing.JTextField();
-        formatTextField = new javax.swing.JTextField();
         countryTextField = new javax.swing.JTextField();
         countryLabel = new javax.swing.JLabel();
-        formatLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -259,36 +251,12 @@ public class GUI extends javax.swing.JFrame {
         genreLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         genreLabel.setText("Genre");
 
-        reviewcommTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reviewcommTextFieldActionPerformed(evt);
-            }
-        });
-
-        reviewcommLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        reviewcommLabel.setText("Review Com.");
-
         dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         dateLabel.setText("Release Date");
 
         dateTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dateTextFieldActionPerformed(evt);
-            }
-        });
-
-        releasedescLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        releasedescLabel.setText("Release Desc.");
-
-        releasedescTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                releasedescTextFieldActionPerformed(evt);
-            }
-        });
-
-        formatTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                formatTextFieldActionPerformed(evt);
             }
         });
 
@@ -300,9 +268,6 @@ public class GUI extends javax.swing.JFrame {
 
         countryLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         countryLabel.setText("Country");
-
-        formatLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        formatLabel.setText("Format");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -317,9 +282,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(albumLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(genreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(labelLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(reviewcommLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(dateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(releasedescLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                             .addComponent(artistLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(13, 13, 13)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,9 +291,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(albumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(genreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(releasedescTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reviewcommTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -339,15 +300,11 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(formatLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(countryLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(countryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(13, 13, 13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(countryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(formatTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(countryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                         .addGap(13, 13, 13)
                         .addComponent(reviewTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26)
@@ -359,7 +316,6 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(artistTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -386,34 +342,22 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(countryLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(formatTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(formatLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dateLabel))
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(releasedescTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(releasedescLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(reviewTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(reviewLabel))
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(reviewcommTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reviewcommLabel))
-                        .addGap(42, 42, 42)
+                        .addGap(80, 80, 80)
                         .addComponent(addButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(updateButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchButton)
-                        .addGap(0, 435, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(searchButton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 729, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -424,7 +368,7 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -435,7 +379,8 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_artistTextFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        String query = "INSERT INTO `TableName`(`columnName1`, `columnName2`) VALUES ('" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + formatTextField.getText() + "', '" + dateTextField.getText() + "', '" + releasedescTextField.getText() + "', '" + reviewTextField.getText() + "', '" + reviewcommTextField.getText() + "')";
+        String query = "INSERT INTO `TableName`(`columnName1`, `columnName2`) VALUES ('" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + dateTextField.getText() + "', '" + reviewTextField.getText() + "')";
+        
         executeSQLSearch(query, "Added");
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -460,7 +405,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_reviewTextFieldActionPerformed
     
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        String query = "UPDATE `tableName` SET `columnName`='" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + formatTextField.getText() + "', '" + dateTextField.getText() + "', '" + releasedescTextField.getText() + "', '" + reviewTextField.getText() + "', '" + reviewcommTextField.getText() + "' WHERE `columnName`= +++id for selected row+++";
+        String query = "UPDATE `tableName` SET `columnName`='" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + dateTextField.getText() + "', '" + reviewTextField.getText() + "' WHERE `columnName`= +++id for selected row+++";
         executeSQLSearch(query, "Updated");
         
     }//GEN-LAST:event_updateButtonActionPerformed
@@ -474,21 +419,9 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void reviewcommTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewcommTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_reviewcommTextFieldActionPerformed
-
     private void dateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateTextFieldActionPerformed
-
-    private void releasedescTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_releasedescTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_releasedescTextFieldActionPerformed
-
-    private void formatTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formatTextFieldActionPerformed
 
     private void countryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryTextFieldActionPerformed
         // TODO add your handling code here:
@@ -504,11 +437,8 @@ public class GUI extends javax.swing.JFrame {
         genreTextField.setText(model.getValueAt(i, 3).toString());
         labelTextField.setText(model.getValueAt(i, 4).toString());
         countryTextField.setText(model.getValueAt(i, 5).toString());
-        formatTextField.setText(model.getValueAt(i, 6).toString());
-        dateTextField.setText(model.getValueAt(i, 7).toString());
-        releasedescTextField.setText(model.getValueAt(i, 8).toString());
-        reviewTextField.setText(model.getValueAt(i, 9).toString());
-        reviewcommTextField.setText(model.getValueAt(i, 10).toString());
+        dateTextField.setText(model.getValueAt(i, 6).toString());
+        reviewTextField.setText(model.getValueAt(i, 7).toString());
                 
     }//GEN-LAST:event_resultsTableMouseClicked
 
@@ -556,21 +486,15 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel dateLabel;
     private javax.swing.JTextField dateTextField;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JLabel formatLabel;
-    private javax.swing.JTextField formatTextField;
     private javax.swing.JLabel genreLabel;
     private javax.swing.JTextField genreTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelLabel;
     private javax.swing.JTextField labelTextField;
-    private javax.swing.JLabel releasedescLabel;
-    private javax.swing.JTextField releasedescTextField;
     private javax.swing.JTable resultsTable;
     private javax.swing.JLabel reviewLabel;
     private javax.swing.JTextField reviewTextField;
-    private javax.swing.JLabel reviewcommLabel;
-    private javax.swing.JTextField reviewcommTextField;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel songLabel;
     private javax.swing.JTextField songTextField;
