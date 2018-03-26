@@ -41,7 +41,8 @@ public class GUI extends javax.swing.JFrame {
     public ArrayList<Music> getMusicList(){
         ArrayList<Music> musicList = new ArrayList<Music>();
         Connection connect = getConnection();
-        String query = "SELECT Artist_Name, Track_Name, Album_Name, Genre_Name, Country_Name FROM " + "Artist join Album using (Artist_id) " + "join Track using (Album_id) " + "join Country using (Country_ID) " + "join Genre using (Genre_ID)";
+        //String query = "SELECT Artist_Name, Track_Name, Album_Name, Genre_Name, Country_Name FROM " + "Artist full join Album using (Artist_id) " + "full join Track using (Album_id) " + "full join Country using (Country_ID) " + "full join Genre using (Genre_ID)";
+        String query = "SELECT Artist.Artist_Name, Track.Track_Name, Album.Album_Name, Genre.Genre_Name, Country.Country_Name FROM Country right join Artist on Country.Country_ID = Artist.Country_ID right join Album on Artist.Artist_ID = Album.Artist_ID right join Track on Album.Album_ID = Track.Album_ID right join Genre on Album.Genre_ID = Genre.Genre_ID;";
         
         Statement stmt;
         ResultSet rs;
@@ -95,6 +96,8 @@ public class GUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -278,17 +281,23 @@ public class GUI extends javax.swing.JFrame {
         String artist = artistTextField.getText() + " ";
         String song = songTextField.getText() + " ";
         String album = albumTextField.getText() + " ";
-        String query = "", query1 = "", query2 = "", query3 = "", query4;
-        
+       
         if (!artist.equals(null) && !song.equals(null) && !album.equals(null)){
-            query1 = "INSERT INTO Artist (Artist_Name) VALUES ('" + artist + "'); ";
-            query2 =  "INSERT INTO Track (Track_Name) VALUES ('" + song + "'); ";
-            query3 = "INSERT INTO Album (Album_Name) VALUES ('" + album + "') ";
-            
-            query4 = query1 + query2 + query3;
-            
-            executeSQLSearch(query3, "Added");
-            
+            Statement stmt;
+            Connection connect = getConnection();
+            try {
+                stmt = connect.createStatement();
+                stmt.addBatch("INSERT INTO Artist (Artist_Name) VALUES ('" + artist + "'); ");
+                stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID) VALUES ('" + song + "', 100); ");
+                stmt.addBatch("INSERT INTO Album (Album_Name) VALUES ('" + album + "') ");
+                stmt.executeBatch();
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
+            model.setRowCount(0);
+            populateTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
