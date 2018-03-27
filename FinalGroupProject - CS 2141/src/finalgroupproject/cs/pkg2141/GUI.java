@@ -321,23 +321,23 @@ public class GUI extends javax.swing.JFrame {
                 //album needs artist and song
                 if (albumID >= 0){
                     if (!song.equals(null)){
-                        stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', '" + albumID + "' " + artistID + "); ");
+                        stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', " + albumID + ", " + artistID + "); ");
                     }
                     
                 }
                 else {
-                    stmt.addBatch("INSERT INTO Album (Album_Name, Genre_ID, Artist_ID) VALUES ('" + album + "', null, '" + artistID +"');");
+                    stmt.addBatch("INSERT INTO Album (Album_Name, Genre_ID, Artist_ID) VALUES ('" + album + "', null, " + artistID +");");
                     stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', null, " + artistID + "); ");
                 }
             }
             else {
                 //artist doesn't exists
                 if (!song.equals(null)){
-                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', '" + albumID + "' " + artistID + "); ");
+                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', " + albumID + ", " + artistID + "); ");
                 }
                 
                 else {
-                    stmt.addBatch("INSERT INTO Album (Album_Name, Genre_ID, Artist_ID) VALUES ('" + album + "', null, '" + artistID +"');");
+                    stmt.addBatch("INSERT INTO Album (Album_Name, Genre_ID, Artist_ID) VALUES ('" + album + "', null, " + artistID +");");
                     stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', null, " + artistID + "); ");
                 }
                 
