@@ -113,7 +113,7 @@ public class GUI extends javax.swing.JFrame {
         ResultSet rs = stmt.executeQuery(query);
         
         while (rs.next()){
-            if(check.equals(rs.getString(0))){
+            if(check.equals(rs.getString(1))){
                 value = rs.getInt(1);
                 break;
             }
@@ -122,6 +122,15 @@ public class GUI extends javax.swing.JFrame {
             }
         }
         return value;
+    }
+    
+    public int getID(String table, String value) throws SQLException{
+        Connection connect = getConnection();
+        String query;
+        query = "SELECT " + table + "_ID FROM " + table + " WHERE " + table + "_Name = '" + value + "';";
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        return rs.getInt(1);
     }
     
     /**
@@ -314,12 +323,12 @@ public class GUI extends javax.swing.JFrame {
             int albumID = exists(album, 2);
             stmt = connect.createStatement();
             
-            if (artistID >= 0){
+            if (artistID >= 1){
                 //existing artist
                 //artist
                 //song needs artist
                 //album needs artist and song
-                if (albumID >= 0){
+                if (albumID >= 1){
                     if (!song.equals(null)){
                         stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', " + albumID + ", " + artistID + "); ");
                     }
@@ -395,18 +404,36 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_albumTextFieldActionPerformed
     
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        
+        Connection connection = null;
+        Statement stmt = null;
         /*
             UPDATE Artist SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
             UPDATE Track SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
             UPDATE Album SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
         */
         int row = resultsTable.getSelectedRow();
+        int artistID = getID();
+        
         DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
         if (row >= 0){
             model.setValueAt(artistTextField.getText(), row, 0);
             model.setValueAt(songTextField.getText(), row, 1);
             model.setValueAt(albumTextField.getText(), row, 2);
+            
+            try {
+                stmt = connection.createStatement();
+                stmt.addBatch("UPDATE Artist SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';");
+                stmt.addBatch("UPDATE Track SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';");
+                stmt.addBatch("UPDATE Album SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';");
+                stmt.executeBatch();
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
+            
         }
         else {
             JOptionPane.showMessageDialog(null, "Error");
