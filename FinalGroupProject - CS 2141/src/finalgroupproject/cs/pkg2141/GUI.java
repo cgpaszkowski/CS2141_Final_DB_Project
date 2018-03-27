@@ -97,7 +97,32 @@ public class GUI extends javax.swing.JFrame {
         }
     }
     
-    
+    public int exists(String check, int type) throws SQLException{
+        Connection connect = getConnection();
+        int value=-1;
+        String query;
+        
+        if (type == 1){
+            query = "SELECT Artist_Name, Artist_ID FROM Artist";
+        }
+        else {
+            query = "SELECT Album_Name, Album_ID FROM Album";
+        }
+        
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        while (rs.next()){
+            if(check.equals(rs.getString(0))){
+                value = rs.getInt(1);
+                break;
+            }
+            else {
+                value = -1;
+            }
+        }
+        return value;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -278,18 +303,78 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_artistTextFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        Statement stmt;
+        Connection connect = getConnection();
         String artist = artistTextField.getText() + " ";
         String song = songTextField.getText() + " ";
         String album = albumTextField.getText() + " ";
-       
+        
+        try {
+            int artistID = exists(artist, 1);
+            int albumID = exists(album, 2);
+            stmt = connect.createStatement();
+            
+            if (artistID >= 0){
+                //existing artist
+                //artist
+                //song needs artist
+                //album needs artist and song
+                if (albumID >= 0){
+                    if (!song.equals(null)){
+                        stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', '" + albumID + "' " + artistID + "); ");
+                    }
+                    
+                }
+                else {
+                    stmt.addBatch("INSERT INTO Album (Album_Name, Genre_ID, Artist_ID) VALUES ('" + album + "', null, '" + artistID +"');");
+                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', null, " + artistID + "); ");
+                }
+            }
+            else {
+                //artist doesn't exists
+                if (!song.equals(null)){
+                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', '" + albumID + "' " + artistID + "); ");
+                }
+                
+                else {
+                    stmt.addBatch("INSERT INTO Album (Album_Name, Genre_ID, Artist_ID) VALUES ('" + album + "', null, '" + artistID +"');");
+                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID, Artist_ID) VALUES ('" + song + "', null, " + artistID + "); ");
+                }
+                
+            }
+                /*
+                if (!artist.equals(null)){
+                    stmt.addBatch("INSERT INTO Track (Artist_ID) VALUES ('" + artistID +"); ");
+                    if (!song.equals(null)){
+                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID) VALUES ('" + song + "'); ");
+                }
+                }
+                
+                if (!album.equals(null)){
+                    stmt.addBatch("INSERT INTO Album (Album_Name) VALUES ('" + album + "') ");
+                }
+                
+                */
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         if (!artist.equals(null) && !song.equals(null) && !album.equals(null)){
-            Statement stmt;
-            Connection connect = getConnection();
+            
             try {
                 stmt = connect.createStatement();
-                stmt.addBatch("INSERT INTO Artist (Artist_Name) VALUES ('" + artist + "'); ");
-                stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID) VALUES ('" + song + "', 100); ");
-                stmt.addBatch("INSERT INTO Album (Album_Name) VALUES ('" + album + "') ");
+                if (!artist.equals(null)){
+                    
+                    stmt.addBatch("INSERT INTO Artist (Artist_Name) VALUES ('" + artist + "'); ");
+                }
+                if (!song.equals(null)){
+                    stmt.addBatch("INSERT INTO Track (Track_Name, Album_ID) VALUES ('" + song + "'); ");
+                }
+                if (!album.equals(null)){
+                    stmt.addBatch("INSERT INTO Album (Album_Name) VALUES ('" + album + "') ");
+                }
                 stmt.executeBatch();
             } 
             catch (SQLException ex) {
@@ -373,42 +458,13 @@ public class GUI extends javax.swing.JFrame {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-        boolean artist = artistTextField.getText().equals(null);
-        boolean album = albumTextField.getText().equals(null);
+       
         boolean song = songTextField.getText().equals(null);
-        String query1, query2="";
+        String query;
         
-        if (!artist || !album || !song){
-            if (!artist){
-                if (!album){
-                    if(!song){
-                       query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                    }
-                    else 
-                        query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "';";
-                }
-                if (!song){
-                    query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                }
-                else 
-                    query2 = "WHERE Artist_Name = '" + artistTextField.getText() + "';";                    
-            }
-            else if (!album){
-                if (!song){
-                    query2 = "WHERE Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                }
-                else 
-                    query2 = "WHERE Album_Name = '" + albumTextField.getText() + "';";
-            }
-            else {
-                query2 = "WHERE Song_Name = '" + songTextField.getText() + "';";
-            }
-            
-            query1 = "DELETE FROM Artist " + query2 + " DELETE FROM Track " + query2 + " DELETE FROM Album " + query2;
-            executeSQLSearch(query1, "Deleted");
-        }
-        else {
-            //---------ROW WAS NOT SELECTED---------POPUP MESSAGE----------
+        if (!song){
+            query = "DELETE FROM Track WHERE Track_Name = '" + songTextField.getText() + "';";
+            executeSQLSearch(query, "Success");
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
