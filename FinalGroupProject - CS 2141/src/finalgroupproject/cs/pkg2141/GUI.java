@@ -1,5 +1,6 @@
 package finalgroupproject.cs.pkg2141;
 
+import static java.lang.Integer.parseInt;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -185,6 +186,26 @@ public class GUI extends javax.swing.JFrame {
             }
         }
         return value;
+    }
+    
+    public int getTrackID(String name) throws SQLException{
+        String value;
+        int id = -1;
+        Connection connect = getConnection();
+        String query = "SELECT Track_ID FROM track WHERE Track_Name = '" + name + "';";
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        System.out.println("TEST 2");
+        
+        while(rs.next()){
+            System.out.println("TEST 3 ");
+            value = rs.getString(1);
+            if (parseInt(value) > 0){
+                id = parseInt(value);
+            }
+        }
+        return id;
     }
     
     /**
@@ -497,64 +518,34 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_albumTextFieldActionPerformed
     
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        Statement stmt;
+        Connection connect = getConnection();
+        int i = resultsTable.getSelectedRow();
+        TableModel model = resultsTable.getModel();
+        String original = model.getValueAt(i, 1).toString();
         
-        /*
-            UPDATE Artist SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
-            UPDATE Track SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
-            UPDATE Album SET Artist_Name='' AND Track_Name = '' AND Album_Name = '' WHERE Artist_Name='' AND Track_Name = '' AND Album_Name = '';
-        */
-        int row = resultsTable.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel) resultsTable.getModel();
-        if (row >= 0){
-            model.setValueAt(artistTextField.getText(), row, 0);
-            model.setValueAt(songTextField.getText(), row, 1);
-            model.setValueAt(albumTextField.getText(), row, 2);
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Error");
-        }
-        
-        /*
-        boolean artist = artistTextField.getText().equals(null);
-        boolean album = albumTextField.getText().equals(null);
-        boolean song = songTextField.getText().equals(null);
-        String query1, query2="", query3="";
-        
-        if (!artist || !album || !song){
-            if (!artist){
-                if (!album){
-                    if(!song){
-                        query2 = "SET Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                        query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                    }
-                    else 
-                        query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Album_Name = '" + albumTextField.getText() + "';";
-                }
-                if (!song){
-                    query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                }
-                else 
-                    query3 = "WHERE Artist_Name = '" + artistTextField.getText() + "';";                    
+        String artist = artistTextField.getText();
+        String song = songTextField.getText();
+        String album = albumTextField.getText();
+        String query="";
+        int id;
+
+        try {
+            id = getTrackID(original);
+            
+            System.out.println("TEST 1 ID = " + id);
+            
+            if (id > 0){
+                stmt = connect.createStatement();
+                query = "UPDATE track SET Track_Name = '" + song + "' WHERE Track_ID = " + id + ";";            
+                stmt.addBatch(query);
+                stmt.executeBatch();                
+                populateTable();
             }
-            else if (!album){
-                if (!song){
-                    query3 = "WHERE Album_Name = '" + albumTextField.getText() + "' AND Song_Name = '" + songTextField.getText() + "';";
-                }
-                else 
-                    query3 = "WHERE Album_Name = '" + albumTextField.getText() + "';";
-            }
-            else {
-                query3 = "WHERE Song_Name = '" + songTextField.getText() + "';";
-            }
-            String query = "UPDATE `tableName` SET `columnName`='" + artistTextField.getText() + "', '" + songTextField.getText() + "', '" + albumTextField.getText() + "', '" + genreTextField.getText() + "', '" + labelTextField.getText() + "', '" + countryTextField.getText() + "', '" + dateTextField.getText() + "', '" + reviewTextField.getText() + "' WHERE `columnName`= +++id for selected row+++";
-            executeSQLSearch(query, "Updated");
-        }
-        else {
-            //---------ROW WAS NOT SELECTED---------POPUP MESSAGE----------
-        }
-        
-        
-        */  
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }    
           
     }//GEN-LAST:event_updateButtonActionPerformed
 
